@@ -108,5 +108,5 @@ endfunction()
 # endforeach()
 
 add_mpy_py(cdc ${CMAKE_CURRENT_LIST_DIR}/micropython-lib/micropython/usb/usb-device-cdc/usb/device/cdc.py "usb/device")
-add_mpy_py(cdc ${CMAKE_CURRENT_LIST_DIR}/micropython-lib/micropython/usb/usb-device/usb/device/__init__.py "usb/device")
-add_mpy_py(cdc ${CMAKE_CURRENT_LIST_DIR}/micropython-lib/micropython/usb/usb-device/usb/device/core.py "usb/device")
+add_mpy_py(init ${CMAKE_CURRENT_LIST_DIR}/micropython-lib/micropython/usb/usb-device/usb/device/__init__.py "usb/device")
+add_mpy_py(core ${CMAKE_CURRENT_LIST_DIR}/micropython-lib/micropython/usb/usb-device/usb/device/core.py "usb/device")
