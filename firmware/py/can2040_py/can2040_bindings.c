@@ -126,7 +126,7 @@ STATIC mp_obj_t can_init_helper(mp_obj_can_interface_t *self ) {
     irq_set_enabled(pio_irq, false);
 
     // claim all the pio sm irqs
-    uint8 is_claimed = 0;
+    uint8_t is_claimed = 0;
     for (uint8_t i=0; i < 4 && !is_claimed; i ++) {
         if (pio_sm_is_claimed(pio, i)) {
             is_claimed = i
@@ -138,7 +138,7 @@ STATIC mp_obj_t can_init_helper(mp_obj_can_interface_t *self ) {
     // if we can't own the whole PIO, then we don't want any of it.
     if (0 != is_claimed) {
         for (uint8_t i = 0; i < is_claimed; i ++) {
-            pio_sm_unclaim(pio, i)
+            pio_sm_unclaim(pio, i);
         }
 
         irq_set_enabled(pio_irq, true); // reenable since we don't own it
