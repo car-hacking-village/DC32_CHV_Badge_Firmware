@@ -129,8 +129,8 @@ STATIC mp_obj_t can_init_helper(mp_obj_can_interface_t *self ) {
     uint8_t is_claimed = 0;
     for (uint8_t i=0; i < 4 && !is_claimed; i ++) {
         if (pio_sm_is_claimed(pio, i)) {
-            is_claimed = i
-            break
+            is_claimed = i;
+            break;
         }
         pio_sm_claim(pio, i);
     }
