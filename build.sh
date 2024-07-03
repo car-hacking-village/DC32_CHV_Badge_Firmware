@@ -28,7 +28,7 @@ if [ $(which ccache) ]; then
 fi
 
 pushd deps/micropython/ports/rp2
-  make BOARD=PICO submodules
+  make BOARD=RPI_PICO submodules
 popd
 
 pushd $(dirname -- "${BASH_SOURCE[0]}")
