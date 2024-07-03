@@ -16,6 +16,10 @@
 // non-micropython stuff
 #include <can2040.h>
 
+#ifndef STATIC
+#define STATIC static
+#endif
+
 STATIC const mp_obj_type_t mp_type_caninterface;
 
 // We have this wrapper object for the internals for the same reason micropython does
