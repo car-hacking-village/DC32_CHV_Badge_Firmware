@@ -1,0 +1,9 @@
+[submodule "deps/micropython-lib"]
+	path = deps/micropython-lib
+	url = ../../micropython/micropython-lib.git
+[submodule "deps/micropython"]
+	path = deps/micropython
+	url = ../../micropython/micropython.git
+[submodule "deps/can2040"]
+	path = deps/can2040
+	url = ../../KevinOConnor/can2040.git
