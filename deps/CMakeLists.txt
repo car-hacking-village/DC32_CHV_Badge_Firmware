@@ -91,18 +91,22 @@ function(add_mpy_c_module TARGET)
 endfunction()
 
 ########### MicroPython-lib stuff ###########
-set(usbd_dir ${CMAKE_CURRENT_LIST_DIR}/micropython-lib/micropython/usbd)
-set(usbd_srcs
-    ${usbd_dir}/cdc.py
-    ${usbd_dir}/device.py
-    ${usbd_dir}/hid.py
-    ${usbd_dir}/midi.py
-    ${usbd_dir}/utils.py
-    ${usbd_dir}/__init__.py
-)
+# set(usbd_dir ${CMAKE_CURRENT_LIST_DIR}/micropython-lib/micropython/usb)
+# set(usbd_srcs
+#     ${usbd_dir}/cdc.py
+#     ${usbd_dir}/device.py
+#     ${usbd_dir}/hid.py
+#     ${usbd_dir}/midi.py
+#     ${usbd_dir}/utils.py
+#     ${usbd_dir}/__init__.py
+# )
 
-# install(FILES ${output_file} DESTINATION ${CMAKE_INSTALL_PREFIX}/${ARGN})
-foreach(X ${usbd_srcs})
-    get_filename_component(USBD_FILE ${X} NAME_WE)
-    add_mpy_py(${USBD_FILE} ${X} "usbd/")
-endforeach()
+# # install(FILES ${output_file} DESTINATION ${CMAKE_INSTALL_PREFIX}/${ARGN})
+# foreach(X ${usbd_srcs})
+#     get_filename_component(USBD_FILE ${X} NAME_WE)
+#     add_mpy_py(${USBD_FILE} ${X} "usbd/")
+# endforeach()
+
+add_mpy_py(cdc ${CMAKE_CURRENT_LIST_DIR}/micropython-lib/micropython/usb/usb-device-cdc/usb/device/cdc.py "usb/device")
+add_mpy_py(cdc ${CMAKE_CURRENT_LIST_DIR}/micropython-lib/micropython/usb/usb-device/usb/device/__init__.py "usb/device")
+add_mpy_py(cdc ${CMAKE_CURRENT_LIST_DIR}/micropython-lib/micropython/usb/usb-device/usb/device/core.py "usb/device")
