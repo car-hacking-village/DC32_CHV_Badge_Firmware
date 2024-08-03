@@ -1,5 +1,4 @@
-from usbd_cdc import cdc_data
-
+from usb.device import cdc
 
 class slcan():
     _BITRATES = {
@@ -25,7 +24,7 @@ class slcan():
     _success = b'\r'
 
     def __init__(self) -> None:
-        self.dev = cdc_data().dev
+        self.dev = cdc.CDCInterface()
 
     def send(self, msg_id:int, dlc:int, msg:bytes, extended=False, remote:bool=False):
         self.dev.write(self.format(msg_id, dlc, msg, extended, remote) + b'\r')

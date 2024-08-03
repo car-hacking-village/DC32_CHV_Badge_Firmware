@@ -9,8 +9,7 @@ def startup():
     output = slcan.slcan()
     import time
     time.sleep(3)
-    print("starting thread")
-    _thread.start_new_thread(engine.handle_canbus, (canbus,output))
+    _thread.start_new_thread(engine.start_engine, (canbus,output))
     return canbus
 
 canbus = startup()

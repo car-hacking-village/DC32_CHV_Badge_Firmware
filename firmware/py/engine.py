@@ -1,9 +1,10 @@
 import time
 import collections
+import asyncio
 
 from leds import leds
 
-RUN_ENGINE = True
+RUN_ENGINE = asyncio.Event()
 BE_QUIET_SILLY_ENGINE = False
 
 class can():
@@ -68,8 +69,7 @@ class can():
         return msgs
 
 def stop_engine():
-    global RUN_ENGINE
-    RUN_ENGINE = False
+    RUN_ENGINE.set()
 
 def stop_random_traffic():
     global BE_QUIET_SILLY_ENGINE
@@ -114,15 +114,12 @@ def __nam__(msg, led_handler, bus):
             else:
                 bus._send_report(arbid=0x100 + 0x40, dlc=1, data=b'}')
 
-def handle_canbus(bus,output):
-    led_handler = leds()
-    led_handler.speed = 10
 
+async def handleMessage(bus, led_handler, output, event):
     counter = 0
-    while (RUN_ENGINE):
+    while not event.is_set():
+        counter += 1
         try:
-            counter += 1
-            # check to see if there are messages from the host
             host_msg = output.recv()
             if host_msg != None:
                 if type(host_msg) == tuple:
@@ -139,6 +136,7 @@ def handle_canbus(bus,output):
                     output.send(*i)
                     bus._send_report(*i)
 
+
             # shhh you don't see this
             msgs = []
             msgs.append(bus._send(counter))
@@ -151,15 +149,36 @@ def handle_canbus(bus,output):
                 output.send(*msg)
                 if not BE_QUIET_SILLY_ENGINE:
                     __nam__(msg, led_handler, bus)
+        except Exception:
+            # idk... pass?
+            pass
 
-            led_handler.do_loop_step()
-            time.sleep(.01)
-        except Exception as e:
-            print(e)
-            global RUN_ENGINE
-            RUN_ENGINE = False
+        await asyncio.sleep(100)
+
+def start_engine(bus, output):
+    asyncio.run(handle_canbus(bus,output))
     print("Engine Stalled")
     import _thread
     _thread.exit()
+
+
+async def handle_canbus(bus, output):
+    led_handler = leds()
+
+    while not RUN_ENGINE.is_set():
+        t1 = None
+        t2 = None
+        try:
+            t1 = asyncio.create_task(handleMessage(bus, led_handler, output, RUN_ENGINE))
+            t2 = asyncio.create_task(led_handler.do_leds(RUN_ENGINE))
+            await RUN_ENGINE.wait()
+
+        except Exception as e:
+            print(e)
+            if t1 != None:
+                t1.cancel()
+            if t2 != None:
+                t2.cancel()
+            RUN_ENGINE.set()
 
 

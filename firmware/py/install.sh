@@ -22,7 +22,7 @@ while [ 1 ]; do
 
     # flash with python code
     wait_for_file /dev/ttyACM0
-    for files in *py usbd/ ; do
+    for files in *py usb/ ; do
         echo -en "\033[100DFlashing $files                                            "
         ampy -p /dev/ttyACM0 put $files
         sleep 1

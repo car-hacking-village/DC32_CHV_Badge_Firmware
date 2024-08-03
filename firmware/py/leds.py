@@ -1,21 +1,21 @@
-import time
 import machine
+import asyncio
 
 
 class leds() :
     _leds = (
-        (True, False, None, None),
-        (True, None, False, None),
-        (True, None, None, False),
-        (False, True, None, None),
-        (False, None, True, None),
-        (False, None, None, True),
-        (None, True, False, None),
-        (None, True, None, False),
-        (None, False, True, None),
-        (None, False, None, True),
-        (None, None, True, False),
         (None, None, False, True),
+        (None, False, None, True),
+        (False, None, None, True),
+        (None, None, True, False),
+        (None, False, True, None),
+        (False, None, True, None),
+        (None, True, None, False),
+        (None, True, False, None),
+        (False, True, None, None),
+        (True, None, None, False),
+        (True, None, False, None),
+        (True, False, None, None),
     )
 
     _lines = (
@@ -39,48 +39,51 @@ class leds() :
         ),
     )
 
+
     def __init__(self) -> None:
-        self.count = 0
-        self.itteration = 0
-        self.speed = 100
-        self.reverse = False
+        self._count = 1
+        self._itteration = 0
+        self._speed = 100
+        self._reverse = False
 
-    def do_loop_step(self) -> None:
-        if (self.itteration % self.speed) == 0:
-            # self.itteration = 0
-            for state, lineNo in zip(self._leds[self.count], range(len(self._lines))):
-                if state == None:
-                    self._lines[lineNo].init(mode=machine.Pin.IN)
-                else:
-                    self._lines[lineNo].init(mode=machine.Pin.OUT)
-                    if state is True:
-                        self._lines[lineNo].high()
+    def set_cars(self, count:int) -> None:
+        if 0 < count <= 3:
+            self._count = count
+        else:
+            self._count = 1
+
+    def set_speed(self, speed:int) -> None:
+        if 0 <= speed <= 10000:
+            self.speed = speed
+
+    def set_direction(self, direction:bool) -> None:
+        self.reverse = direction
+
+    async def do_leds(self, run) -> None:
+        while not run.is_set():
+            # do reset
+            touched = [False, False, False]
+
+            for x in range(self._count):
+                ledNum = (self._itteration+((36//self._count)*x)) % 12
+                ledSet = ((self._itteration+((36//self._count)*x)) // 12) %3
+                touched[ledSet] = True
+                for i in range(4):
+                    if self._leds[ledNum][i] == None:
+                        self._lines[ledSet][i].init(mode=machine.Pin.IN)    
                     else:
-                        self._lines[lineNo].low()
+                        self._lines[ledSet][i].init(mode=machine.Pin.OUT)
+                        if self._leds[ledNum][i] == True:
+                            self._lines[ledSet][i].high()
+                        else:
+                            self._lines[ledSet][i].low()
 
-            if self.reverse:
-                self.count = (self.count-1) % len(self._leds)
-            else:
-                self.count = (self.count+1) % len(self._leds)
-        self.itteration += 1
+                for p in range(3):
+                    if not touched[p]:
+                        for q in range(4):
+                            self._lines[p][q].init(mode=machine.Pin.IN)
+                     
+            self._itteration = (self._itteration + 1) % 36
 
+            await asyncio.sleep_ms(self._speed)
 
-# _lines = [
-#     machine.Pin(6, machine.Pin.OUT),
-#     machine.Pin(5, machine.Pin.OUT),
-#     machine.Pin(4, machine.Pin.OUT),
-#     machine.Pin(3, machine.Pin.OUT),
-# ]
-
-
-
-# def do_led(a):
-#     for s, l in zip(a, range(4)):
-#         if s is None:
-#             _lines[l].init(mode=machine.Pin.IN)
-#         else:
-#             _lines[l].init(mode=machine.Pin.OUT)
-#             if s is True:
-#                 _lines[l].high()
-#             else:
-#                 _lines[l].low()
