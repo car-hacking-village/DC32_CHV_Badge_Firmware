@@ -1,19 +1,23 @@
-from usbd import device, cdc
+from usb.device.cdc import CDCInterface
+import usb.device
+import time
+import os
 
 class cdc_data():
     _dev = None
 
     def __init__(self) -> None:
         if self._dev == None:
-            ud = device.get_usbdevice()
-            cdc.setup_CDC_device()
-            ctrl_cdc = cdc.CDCControlInterface('cdc interface')
-            data_cdc = cdc.CDCDataInterface('data interface')
-            ud.add_interface(ctrl_cdc)
-            ud.add_interface(data_cdc)
-            ud.reenumerate()
-            self.__set_dev(data_cdc)
-    
+            self._dev = CDCInterface()
+            self._dev.init(timeout=0)
+
+            usb.device.get().init(self._dev, builtin_driver=True)
+
+            while not self._dev.is_open():
+                time.sleep_ms(100)
+
+            os.dupterm(self._dev)
+
     @property
     def dev(self):
         return self._dev
@@ -24,3 +28,4 @@ class cdc_data():
             cls._dev = dev
         else:
             raise ValueError("Error: cdc data device already initialized")
+

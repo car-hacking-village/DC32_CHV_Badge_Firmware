@@ -59,7 +59,7 @@ class leds() :
     def set_direction(self, direction:bool) -> None:
         self.reverse = direction
 
-    async def do_leds(self, run) -> None:
+    async def _do_leds(self, run) -> None:
         while not run.is_set():
             # do reset
             touched = [False, False, False]

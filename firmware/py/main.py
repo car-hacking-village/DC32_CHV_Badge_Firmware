@@ -12,11 +12,10 @@ def startup():
     _thread.start_new_thread(engine.start_engine, (canbus,output))
     return canbus
 
-canbus = startup()
-del startup
+
 
 print('''
-Car Hacking Village Main Badge Defcon 31
+Car Hacking Village Main Badge Defcon 32
 You can get started by sending and receiving CAN
 messages in python using the "canbus" variable.
 
@@ -25,3 +24,6 @@ You can also use the slcan interface by running
 # sudo ip link set slcan0 up
 
 ''')
+
+canbus = startup()
+del startup

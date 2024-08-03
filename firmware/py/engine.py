@@ -165,20 +165,19 @@ def start_engine(bus, output):
 async def handle_canbus(bus, output):
     led_handler = leds()
 
-    while not RUN_ENGINE.is_set():
-        t1 = None
-        t2 = None
-        try:
-            t1 = asyncio.create_task(handleMessage(bus, led_handler, output, RUN_ENGINE))
-            t2 = asyncio.create_task(led_handler.do_leds(RUN_ENGINE))
-            await RUN_ENGINE.wait()
+    t1 = None
+    t2 = None
+    try:
+        t1 = asyncio.create_task(handleMessage(bus, led_handler, output, RUN_ENGINE))
+        t2 = asyncio.create_task(led_handler._do_leds(RUN_ENGINE))
+        await RUN_ENGINE.wait()
 
-        except Exception as e:
-            print(e)
-            if t1 != None:
-                t1.cancel()
-            if t2 != None:
-                t2.cancel()
-            RUN_ENGINE.set()
+    except Exception as e:
+        print(e)
+        if t1 != None:
+            t1.cancel()
+        if t2 != None:
+            t2.cancel()
+        RUN_ENGINE.set()
 
 

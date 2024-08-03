@@ -176,8 +176,8 @@ STATIC mp_obj_t mp_can_make_new(const mp_obj_type_t *type, size_t n_args, size_t
     static const mp_arg_t allowed_args[] = {
         { MP_QSTR_bitrate,  MP_ARG_INT,   {.u_int = 500000} },
         { MP_QSTR_sysclock, MP_ARG_INT,   {.u_int = 125000000} },
-        { MP_QSTR_gpiorx,   MP_ARG_INT,   {.u_int = 11} },
-        { MP_QSTR_gpiotx,   MP_ARG_INT,   {.u_int = 12} },
+        { MP_QSTR_gpiorx,   MP_ARG_INT,   {.u_int = 17} },
+        { MP_QSTR_gpiotx,   MP_ARG_INT,   {.u_int = 18} },
         { MP_QSTR_pionum,   MP_ARG_INT,   {.u_int = 1}  },
         // { MP_QSTR_max_retries, MP_ARG_INT,{.u_int = 10}  },
     };
