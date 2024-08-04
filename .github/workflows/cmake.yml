@@ -39,6 +39,7 @@ jobs:
         path: release/
 
   release:
+    permissions: write-all
     name: Release pushed tag
     if: startsWith(github.ref, 'refs/tags/v')
     needs: build
