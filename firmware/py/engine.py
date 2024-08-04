@@ -1,6 +1,7 @@
 import time
 import collections
 import asyncio
+import aiorepl
 
 from leds import leds
 
@@ -139,7 +140,10 @@ async def handleMessage(bus, led_handler, output, event):
 
             # shhh you don't see this
             msgs = []
-            msgs.append(bus._send(counter))
+            try:
+                msgs.append(bus._send(counter))
+            except ValueError:
+                pass
             msgs.extend(bus._recv())
 
             
@@ -153,7 +157,7 @@ async def handleMessage(bus, led_handler, output, event):
             # idk... pass?
             pass
 
-        await asyncio.sleep(100)
+        await asyncio.sleep_ms(100)
 
 def start_engine(bus, output):
     asyncio.run(handle_canbus(bus,output))
@@ -165,11 +169,15 @@ def start_engine(bus, output):
 async def handle_canbus(bus, output):
     led_handler = leds()
 
+    await asyncio.sleep_ms(500)
+
     t1 = None
     t2 = None
+    t3 = None
     try:
         t1 = asyncio.create_task(handleMessage(bus, led_handler, output, RUN_ENGINE))
         t2 = asyncio.create_task(led_handler._do_leds(RUN_ENGINE))
+        t3 = asyncio.create_task(aiorepl.task())
         await RUN_ENGINE.wait()
 
     except Exception as e:
@@ -178,6 +186,8 @@ async def handle_canbus(bus, output):
             t1.cancel()
         if t2 != None:
             t2.cancel()
+        if t3 != None:
+            t3.cancel()
         RUN_ENGINE.set()
 
 

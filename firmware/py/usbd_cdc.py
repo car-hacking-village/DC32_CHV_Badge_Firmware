@@ -3,24 +3,40 @@ import usb.device
 import time
 import os
 
+import asyncio
+
 class cdc_data():
     _dev = None
+    # _lock = asyncio.Lock()
+    _msg_buf = []
 
-    def __init__(self) -> None:
+    def __init__(self, timeout=0) -> None:
         if self._dev == None:
             self._dev = CDCInterface()
-            self._dev.init(timeout=0)
+            self._dev.init(timeout=timeout)
 
-            usb.device.get().init(self._dev, builtin_driver=True)
+            usb.device.core.get().init(self._dev, builtin_driver=True)
 
             while not self._dev.is_open():
-                time.sleep_ms(100)
+                time.sleep_ms(timeout + 100)
 
-            os.dupterm(self._dev)
+            # os.dupterm(self._dev)
+            
+    def read(self, length):
+        # async with self._lock:
+        fin = self._dev.read(length)
+        return fin
 
-    @property
-    def dev(self):
-        return self._dev
+
+    def write(self, buf):
+        # async with self._lock:
+        self._dev.write(buf)
+
+
+
+    # @property
+    # def dev(self):
+    #     return self._dev
         
     @classmethod
     def __set_dev(cls, dev):
