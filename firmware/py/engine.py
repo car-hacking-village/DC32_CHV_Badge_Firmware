@@ -77,46 +77,46 @@ def stop_random_traffic():
     BE_QUIET_SILLY_ENGINE = True
 
 def __nam__(msg, led_handler, bus):
-        if msg[0] == 0x10 and msg[1] >= 1:
+        if msg[0] == 0x610 and msg[1] >= 1:
             led_handler.speed = int.from_bytes(msg[2],'little')
             bus._send_report(arbid=0x10 + 0x40, dlc=1, data=b'\x01')
-        elif msg[0] == 0x12 and msg[1] == 7:
+        elif msg[0] == 0x612 and msg[1] == 7:
             if msg[2] == b'forward':
                 led_handler.reverse = False
                 bus._send_report(arbid=0x10 + 0x40, dlc=8, data=b'onwards!')
             elif msg[2] == b'reverse':
                 led_handler.reverse = True
                 bus._send_report(arbid=0x10 + 0x40, dlc=8, data=b'retreat!')
-        elif msg[0] == 0x13 and 1 <= msg[1] <= 3:
+        elif msg[0] == 0x613 and 1 <= msg[1] <= 3:
             led_handler.set_cars(msg[1])
             bus._send_report(arbid=0x10 + 0x40, dlc=4, data=b'cars')
-        elif msg[0] == 0x100 and (len(msg) >= 5 and msg[4] == True):
+        elif msg[0] == 0x6b0 and (len(msg) >= 5 and msg[4] == True):
             if msg[1] == 8:
-                if msg[2] == b'DC31CHV\xa9':
-                    bus._send_report(arbid=0x100 + 0x40, dlc=8, data=b'flag{\xd7\n\xe6')
+                if msg[2] == b'IOActive':
+                    bus._send_report(arbid=0x6b0 + 0x40, dlc=8, data=b'flag{79c')
             elif msg[1] == 7:
-                if msg[2] == b'\xe0\xb2\xa0_\xe0\xb2\xa0':
-                    bus._send_report(arbid=0x100 + 0x40, dlc=7, data=b'n0*;ozC')
+                if msg[2] == b'BHarbor' :
+                    bus._send_report(arbid=0x6b0 + 0x40, dlc=7, data=b'c8b7f9-')
             elif msg[1] == 6:
-                if msg[2] == b'linted':
-                    bus._send_report(arbid=0x100 + 0x40, dlc=6, data=b'\k!X"U')
+                if msg[2] == b'Linted':
+                    bus._send_report(arbid=0x6b0 + 0x40, dlc=6, data=b'17b6-4')
             elif msg[1] == 5:
-                if msg[2] == str(15 << 175 + 3**3 // 10 <<3)[:5].encode():
-                    bus._send_report(arbid=0x100 + 0x40, dlc=5, data=b')du+4')
+                if msg[2] == "APTIV":
+                    bus._send_report(arbid=0x6b0 + 0x40, dlc=5, data=b'f0c-9')
             elif msg[1] == 4:
-                if msg[2] == b'\xa5100':
-                    bus._send_report(arbid=0x100 + 0x40, dlc=4, data=b'6e0T')
+                if msg[2] == b'cats':
+                    bus._send_report(arbid=0x6b0 + 0x40, dlc=4, data=b'2f8-')
             elif msg[1] == 3:
-                if msg[2] == b'\xec\x9b\x83':
-                    bus._send_report(arbid=0x100 + 0x40, dlc=3, data=b'Emd')
+                if msg[2] == b'OwO':
+                    bus._send_report(arbid=0x6b0 + 0x40, dlc=3, data=b'fac')
             elif msg[1] == 2:
-                if msg[2] == b'\xd9\xbc':
-                    bus._send_report(arbid=0x100 + 0x40, dlc=2, data=b'fl')
+                if msg[2] == b'\x02\x01':
+                    bus._send_report(arbid=0x6b0 + 0x40, dlc=2, data=b'ad')
             elif msg[1] == 1:
-                if msg[2] == b'\xbe':
-                    bus._send_report(arbid=0x100 + 0x40, dlc=1, data=b'a')
+                if msg[2] == b'A':
+                    bus._send_report(arbid=0x6b0 + 0x40, dlc=1, data=b'd')
             else:
-                bus._send_report(arbid=0x100 + 0x40, dlc=1, data=b'}')
+                bus._send_report(arbid=0x6b0 + 0x40, dlc=1, data=b'}')
 
 
 async def handleMessage(bus, led_handler, output, event):

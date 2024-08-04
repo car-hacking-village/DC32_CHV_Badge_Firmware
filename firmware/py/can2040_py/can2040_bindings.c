@@ -469,46 +469,46 @@ STATIC mp_obj_t canbus_get_msg(mp_obj_t self_in, mp_obj_t counter_obj) {
         mp_obj_t list = mp_obj_new_list(0, NULL);
         if(mp_obj_get_int_maybe(counter_obj, &counter)) {
             
-            // if (counter % 3 == 0) {
-            //     mp_obj_t ret = mp_obj_new_tuple(3, NULL);
-            //     mp_obj_tuple_t *tuple = MP_OBJ_TO_PTR(ret);
-            //     tuple->items[0] = MP_OBJ_NEW_SMALL_INT(0xc32);
-            //     tuple->items[1] = MP_OBJ_NEW_SMALL_INT(8);
-            //     tuple->items[2] = mp_obj_new_bytes((byte*)"flag{I'm not sure what to do", 8);
-            //     mp_obj_list_append(list, ret);
-            // }
-            // if (counter % 5 == 0) {
-            //     mp_obj_t ret = mp_obj_new_tuple(3, NULL);
-            //     mp_obj_tuple_t *tuple = MP_OBJ_TO_PTR(ret);
-            //     tuple->items[0] = MP_OBJ_NEW_SMALL_INT(0xb77);
-            //     tuple->items[1] = MP_OBJ_NEW_SMALL_INT(6);
-            //     tuple->items[2] = mp_obj_new_bytes((byte*)"never have I seen such a weird", 6);
-            //     mp_obj_list_append(list, ret);
-            // }
-            // if (counter % 7 == 0) {
-            //     mp_obj_t ret = mp_obj_new_tuple(3, NULL);
-            //     mp_obj_tuple_t *tuple = MP_OBJ_TO_PTR(ret);
-            //     tuple->items[0] = MP_OBJ_NEW_SMALL_INT(0x7c3);
-            //     tuple->items[1] = MP_OBJ_NEW_SMALL_INT(6);
-            //     tuple->items[2] = mp_obj_new_bytes((byte*)"gunna be the worst way to die", 6);
-            //     mp_obj_list_append(list, ret);
-            // }
-            // if (counter % 11 == 0) {
-            //     mp_obj_t ret = mp_obj_new_tuple(3, NULL);
-            //     mp_obj_tuple_t *tuple = MP_OBJ_TO_PTR(ret);
-            //     tuple->items[0] = MP_OBJ_NEW_SMALL_INT(0xc2c);
-            //     tuple->items[1] = MP_OBJ_NEW_SMALL_INT(5);
-            //     tuple->items[2] = mp_obj_new_bytes((byte*)"give me a break, this is ridiculous", 5);
-            //     mp_obj_list_append(list, ret);
-            // }
-            // if (counter % 13 == 0) {
-            //     mp_obj_t ret = mp_obj_new_tuple(3, NULL);
-            //     mp_obj_tuple_t *tuple = MP_OBJ_TO_PTR(ret);
-            //     tuple->items[0] = MP_OBJ_NEW_SMALL_INT(0x20d);
-            //     tuple->items[1] = MP_OBJ_NEW_SMALL_INT(7);
-            //     tuple->items[2] = mp_obj_new_bytes((byte*)"you up}to trying this again?", 7);
-            //     mp_obj_list_append(list, ret);
-            // }
+            if (counter % 3 == 0) {
+                mp_obj_t ret = mp_obj_new_tuple(3, NULL);
+                mp_obj_tuple_t *tuple = MP_OBJ_TO_PTR(ret);
+                tuple->items[0] = MP_OBJ_NEW_SMALL_INT(0x601);
+                tuple->items[1] = MP_OBJ_NEW_SMALL_INT(8);
+                tuple->items[2] = mp_obj_new_bytes((byte*)"flag{if_the_crow", 8);
+                mp_obj_list_append(list, ret);
+            }
+            if (counter % 5 == 0) {
+                mp_obj_t ret = mp_obj_new_tuple(3, NULL);
+                mp_obj_tuple_t *tuple = MP_OBJ_TO_PTR(ret);
+                tuple->items[0] = MP_OBJ_NEW_SMALL_INT(0x602);
+                tuple->items[1] = MP_OBJ_NEW_SMALL_INT(6);
+                tuple->items[2] = mp_obj_new_bytes((byte*)"the_want_of_coffee", 6);
+                mp_obj_list_append(list, ret);
+            }
+            if (counter % 7 == 0) {
+                mp_obj_t ret = mp_obj_new_tuple(3, NULL);
+                mp_obj_tuple_t *tuple = MP_OBJ_TO_PTR(ret);
+                tuple->items[0] = MP_OBJ_NEW_SMALL_INT(0x603);
+                tuple->items[1] = MP_OBJ_NEW_SMALL_INT(6);
+                tuple->items[2] = mp_obj_new_bytes((byte*)"shrooms_are_trippy", 8);
+                mp_obj_list_append(list, ret);
+            }
+            if (counter % 11 == 0) {
+                mp_obj_t ret = mp_obj_new_tuple(3, NULL);
+                mp_obj_tuple_t *tuple = MP_OBJ_TO_PTR(ret);
+                tuple->items[0] = MP_OBJ_NEW_SMALL_INT(0x604);
+                tuple->items[1] = MP_OBJ_NEW_SMALL_INT(5);
+                tuple->items[2] = mp_obj_new_bytes((byte*)"are_cleaners_coming_tomorrow?", 8);
+                mp_obj_list_append(list, ret);
+            }
+            if (counter % 13 == 0) {
+                mp_obj_t ret = mp_obj_new_tuple(3, NULL);
+                mp_obj_tuple_t *tuple = MP_OBJ_TO_PTR(ret);
+                tuple->items[0] = MP_OBJ_NEW_SMALL_INT(0x605);
+                tuple->items[1] = MP_OBJ_NEW_SMALL_INT(7);
+                tuple->items[2] = mp_obj_new_bytes((byte*)"n}_yabba_dabba_doo", 2);
+                mp_obj_list_append(list, ret);
+            }
 
             return list;
         } else {

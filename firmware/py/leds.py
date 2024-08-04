@@ -41,7 +41,7 @@ class leds() :
 
 
     def __init__(self) -> None:
-        self._count = 3
+        self._count = 1
         self._itteration = 0
         self._speed = 100
         self._reverse = False
