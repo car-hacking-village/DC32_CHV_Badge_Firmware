@@ -87,6 +87,9 @@ def __nam__(msg, led_handler, bus):
             elif msg[2] == b'reverse':
                 led_handler.reverse = True
                 bus._send_report(arbid=0x10 + 0x40, dlc=8, data=b'retreat!')
+        elif msg[0] == 0x13 and 1 <= msg[1] <= 3:
+            led_handler.set_cars(msg[1])
+            bus._send_report(arbid=0x10 + 0x40, dlc=4, data=b'cars')
         elif msg[0] == 0x100 and (len(msg) >= 5 and msg[4] == True):
             if msg[1] == 8:
                 if msg[2] == b'DC31CHV\xa9':
@@ -168,8 +171,6 @@ def start_engine(bus, output):
 
 async def handle_canbus(bus, output):
     led_handler = leds()
-
-    await asyncio.sleep_ms(500)
 
     t1 = None
     t2 = None
