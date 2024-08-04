@@ -17,8 +17,8 @@ class cdc_data():
 
             usb.device.core.get().init(self._dev, builtin_driver=True)
 
-            while not self._dev.is_open():
-                time.sleep_ms(timeout + 100)
+            # while not self._dev.is_open():
+            #     time.sleep_ms(timeout + 100)
 
             # os.dupterm(self._dev)
             
