@@ -8,6 +8,30 @@ from leds import leds
 RUN_ENGINE = asyncio.Event()
 BE_QUIET_SILLY_ENGINE = False
 
+BADGE_HELP = '''
+Car Hacking Village Main Badge Defcon 32
+You can get started by sending and receiving CAN
+messages in python using the "canbus" variable.
+
+--> canbus.send(0x1, 0x1, b'\\x01')
+--> canbus.recv()
+
+This is an async repl, so you can await async functions!
+
+--> await asyncio.sleep(1)
+
+I'm sorry that tab completion is broken. Also multiline
+commands won't work either. you should probably run
+os.remove('main.py') before trying to reflash the firmware.
+
+You can also use the slcan interface by running
+# sudo slcand -o -s6 -t hw /dev/ttyACM1
+# sudo ip link set slcan0 up
+
+flag{good_job_you_used_the_badge}
+
+'''
+
 class can():
     def __init__(self) -> None:
         import _canbus # do the import here so it's hidden from engine's scope
@@ -145,8 +169,8 @@ async def handleMessage(bus, led_handler, output, event):
             msgs = []
             try:
                 msgs.append(bus._send(counter))
-            except ValueError:
-                pass
+            except ValueError as e:
+                print(e)
             msgs.extend(bus._recv())
 
             
@@ -156,29 +180,37 @@ async def handleMessage(bus, led_handler, output, event):
                 output.send(*msg)
                 if not BE_QUIET_SILLY_ENGINE:
                     __nam__(msg, led_handler, bus)
-        except Exception:
+        except Exception as e:
             # idk... pass?
+            print(e)
             pass
-
+        
         await asyncio.sleep_ms(100)
 
-def start_engine(bus, output):
-    asyncio.run(handle_canbus(bus,output))
+def start_engine(bus, output, env):
+    asyncio.run(handle_canbus(bus,output, env))
     print("Engine Stalled")
     import _thread
     _thread.exit()
 
+async def _print_help():
+    await asyncio.sleep(3)
+    print(BADGE_HELP)
 
-async def handle_canbus(bus, output):
+async def handle_canbus(bus, output, env):
     led_handler = leds()
+
+    env["help"] = BADGE_HELP
 
     t1 = None
     t2 = None
     t3 = None
+    t4 = None
     try:
         t1 = asyncio.create_task(handleMessage(bus, led_handler, output, RUN_ENGINE))
         t2 = asyncio.create_task(led_handler._do_leds(RUN_ENGINE))
-        t3 = asyncio.create_task(aiorepl.task())
+        t3 = asyncio.create_task(aiorepl.task(env))
+        t4 = asyncio.create_task(_print_help())
         await RUN_ENGINE.wait()
 
     except Exception as e:
@@ -189,6 +221,8 @@ async def handle_canbus(bus, output):
             t2.cancel()
         if t3 != None:
             t3.cancel()
+        if t4 != None:
+            t4.cancel()
         RUN_ENGINE.set()
 
 

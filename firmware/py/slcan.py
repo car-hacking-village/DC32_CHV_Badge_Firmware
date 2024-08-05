@@ -31,7 +31,7 @@ class slcan():
             self.dev.write(self.format(msg_id, dlc, msg, extended, remote) + b'\r')
 
     def recv(self): # -> Optional[int, bool, Tuple[int, int, bytes, bool]]
-        if not self._dev.is_open():
+        if not self.dev.is_open():
             return None
         raw_msg = self.dev.read(27)
         # check if we didn't get a real message.

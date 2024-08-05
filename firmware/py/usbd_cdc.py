@@ -32,7 +32,8 @@ class cdc_data():
         # async with self._lock:
         self._dev.write(buf)
 
-
+    def is_open(self) -> bool:
+        return self._dev.is_open()
 
     # @property
     # def dev(self):
