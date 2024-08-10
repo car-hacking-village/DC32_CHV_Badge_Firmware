@@ -489,7 +489,7 @@ STATIC mp_obj_t canbus_get_msg(mp_obj_t self_in, mp_obj_t counter_obj) {
                 mp_obj_t ret = mp_obj_new_tuple(3, NULL);
                 mp_obj_tuple_t *tuple = MP_OBJ_TO_PTR(ret);
                 tuple->items[0] = MP_OBJ_NEW_SMALL_INT(0x603);
-                tuple->items[1] = MP_OBJ_NEW_SMALL_INT(6);
+                tuple->items[1] = MP_OBJ_NEW_SMALL_INT(8);
                 tuple->items[2] = mp_obj_new_bytes((byte*)"shrooms_are_trippy", 8);
                 mp_obj_list_append(list, ret);
             }
@@ -497,7 +497,7 @@ STATIC mp_obj_t canbus_get_msg(mp_obj_t self_in, mp_obj_t counter_obj) {
                 mp_obj_t ret = mp_obj_new_tuple(3, NULL);
                 mp_obj_tuple_t *tuple = MP_OBJ_TO_PTR(ret);
                 tuple->items[0] = MP_OBJ_NEW_SMALL_INT(0x604);
-                tuple->items[1] = MP_OBJ_NEW_SMALL_INT(5);
+                tuple->items[1] = MP_OBJ_NEW_SMALL_INT(8);
                 tuple->items[2] = mp_obj_new_bytes((byte*)"are_cleaners_coming_tomorrow?", 8);
                 mp_obj_list_append(list, ret);
             }
@@ -505,7 +505,7 @@ STATIC mp_obj_t canbus_get_msg(mp_obj_t self_in, mp_obj_t counter_obj) {
                 mp_obj_t ret = mp_obj_new_tuple(3, NULL);
                 mp_obj_tuple_t *tuple = MP_OBJ_TO_PTR(ret);
                 tuple->items[0] = MP_OBJ_NEW_SMALL_INT(0x605);
-                tuple->items[1] = MP_OBJ_NEW_SMALL_INT(7);
+                tuple->items[1] = MP_OBJ_NEW_SMALL_INT(2);
                 tuple->items[2] = mp_obj_new_bytes((byte*)"n}_yabba_dabba_doo", 2);
                 mp_obj_list_append(list, ret);
             }
