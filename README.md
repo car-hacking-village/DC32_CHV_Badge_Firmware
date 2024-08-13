@@ -58,6 +58,22 @@ You can rebuild cleanly by running:
 ./build.sh clean
 ```
 
+# Flashing
+WARNING: you need to remove `main.py` before uploading a new set of firmware. This will prevent a large number of issues involving automatic code execution.
+
+Install ampy
+```
+pip3 install adafruit-ampy
+```
+
+Move to the release dir and start the install script
+```
+cd release
+./install.sh
+```
+
+Press and hold the BootSel and Reset buttons. release the Reset button, then release the BootSel button. The script should take over from there.
+
 # cansniffer
 rp3 is set up to log output in a format readable by socketcan.
 Run the following commands to get everything setup.
