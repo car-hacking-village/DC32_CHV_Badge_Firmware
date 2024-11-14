@@ -102,17 +102,17 @@ def stop_random_traffic():
 
 def __nam__(msg, led_handler, bus):
         if msg[0] == 0x610 and msg[1] >= 1:
-            led_handler.speed = int.from_bytes(msg[2],'little')
+            led_handler.set_speed(int.from_bytes(msg[2],'little'))
             bus._send_report(arbid=0x10 + 0x40, dlc=1, data=b'\x01')
         elif msg[0] == 0x612 and msg[1] == 7:
             if msg[2] == b'forward':
-                led_handler.reverse = False
+                led_handler.set_direction(False)
                 bus._send_report(arbid=0x10 + 0x40, dlc=8, data=b'onwards!')
             elif msg[2] == b'reverse':
-                led_handler.reverse = True
+                led_handler.set_direction(True)
                 bus._send_report(arbid=0x10 + 0x40, dlc=8, data=b'retreat!')
-        elif msg[0] == 0x613 and 1 <= msg[1] <= 3:
-            led_handler.set_cars(msg[1])
+        elif msg[0] == 0x613 and msg[1] == 1:
+            led_handler.set_cars(int.from_bytes(msg[2],'little'))
             bus._send_report(arbid=0x10 + 0x40, dlc=4, data=b'cars')
         elif msg[0] == 0x6b0 and (len(msg) >= 5 and msg[4] == True):
             if msg[1] == 8:
